@@ -2,7 +2,7 @@
 
 ### About files:
  - PythonParser.g4
-   is the ANTLR4 parser grammar that based on the official [Python grammar](https://docs.python.org/3.8/reference/grammar.html). This is the last traditional grammar not yet written in PEG.
+   is the ANTLR4 parser grammar that based on the official [Python grammar](https://docs.python.org/3.8/reference/grammar.html). This is the last traditional Python grammar not yet written in [PEG](https://en.wikipedia.org/wiki/Parsing_expression_grammar).
 
  - PythonLexerBase.java
    handles the Python indentations.
