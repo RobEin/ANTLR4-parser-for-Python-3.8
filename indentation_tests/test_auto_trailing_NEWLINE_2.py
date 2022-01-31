@@ -4,4 +4,4 @@
 # - no error message
 
 if True:
-    j = 0   # there is no new line char(s) at the end of this code
+    j = 0   # there is no newline at the end of this code

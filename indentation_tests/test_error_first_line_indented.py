@@ -2,4 +2,4 @@
 
 # REQUIREMENTS:
 # - leading INDENT token
-# - error message: "line 1:4        unexpected indent"
+# - error message: "line 1:         unexpected indent"

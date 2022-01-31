@@ -139,12 +139,12 @@ TYPE_COMMENT
     ;
 
 NEWLINE
-    : OS_INDEPEND_NL WS?
+    : OS_INDEPEND_NL
     ;
 
-WS           : [ \t]+              -> channel(HIDDEN);
-LINE_JOINING : '\\' OS_INDEPEND_NL -> channel(HIDDEN);
-COMMENT      : '#' ~[\r\n\f]*      -> channel(HIDDEN);
+COMMENT      : '#' ~[\r\n\f]* -> channel(HIDDEN);
+WS           : [ \t]+         -> channel(HIDDEN);
+LINE_JOINING : '\\' NEWLINE   -> channel(HIDDEN);
 
 /*
  * fragments
