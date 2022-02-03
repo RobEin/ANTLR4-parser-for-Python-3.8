@@ -1,6 +1,6 @@
 # REQUIREMENTS:
-# - trailing NEWLINE token
-# - trailing DEDENT token
+# - inserted trailing NEWLINE token
+# - inserted trailing DEDENT token
 # - no error message
 
 if True:

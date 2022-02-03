@@ -22,7 +22,7 @@ THE SOFTWARE.
 
  /*
  * Project      : an ANTLR4 lexer grammar for Python 3
- *
+ *                https://github.com/RobEin/ANTLR4-parser-for-Python-3.8.12
  * Developed by : Robert Einhorn, robert.einhorn.hu@gmail.com
  */
 
@@ -91,7 +91,7 @@ EQUAL            : '=';
 DOT              : '.';
 PERCENT          : '%';
 EQEQUAL          : '==';
-NOT_EQUAL        : '<>';
+INEQUAL          : '<>'; // <> isn't actually a valid comparison operator in Python. It's here for the sake of a __future__ import described in PEP 401 (which really works :-)
 NOTEQUAL         : '!=';
 LESSEQUAL        : '<=';
 GREATEREQUAL     : '>=';
@@ -194,7 +194,6 @@ fragment SHORT_BYTES_CHAR_NO_DOUBLE_QUOTE                      // <any ASCII cha
 
 fragment LONG_BYTES_CHAR  : [\u0000-\u005B] | [\u005D-\u007F]; // <any ASCII character except "\">
 fragment BYTES_ESCAPE_SEQ : '\\' [\u0000-\u007F];              // "\" <any ASCII character>
-
 
 fragment INTEGER        : DEC_INTEGER | BIN_INTEGER | OCT_INTEGER | HEX_INTEGER;
 fragment DEC_INTEGER    : NON_ZERO_DIGIT ('_'? DIGIT)* | '0'+ ('_'? '0')*;

@@ -1,5 +1,5 @@
 /*
- * Project      : an ErrorListener class to collect and display indentation warnings and errors
+ * Project      : an ErrorListener class to collect and display indentation errors
  */
 
 import org.antlr.v4.runtime.*;
