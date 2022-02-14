@@ -1,4 +1,4 @@
-# ANTLR4 parser for Python 3.8.12 &nbsp; 
+# ANTLR4 parser for Python 3.8.12 &nbsp; [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### About files:
  - PythonParser.g4
@@ -12,7 +12,20 @@
  - Test files: [Python 3.8 Standard Lib](http://www.jorkka.net:8082/ruuvi/Python-3.8.0/Lib/)
 
 
+### A simple usage example in command line:
+```bash
+antlr4 PythonLexer.g4
+antlr4 PythonParser.g4
+javac *.java
+grun Python file_input -tokens test.py
+```
 
-### Related link:
-[Python 3 Lexical Analysis](https://docs.python.org/3/reference/lexical_analysis.html)
 
+### Related links:
+[ANTLR 4](https://www.antlr.org/)
+
+[ANTLR 4 Documentation](https://github.com/antlr/antlr4/tree/master/doc)
+
+[ANTLR 4 Runtime API](https://www.antlr.org/api/Java/)
+
+[Python 3.8 Lexical Analysis](https://docs.python.org/3.8/reference/lexical_analysis.html)
