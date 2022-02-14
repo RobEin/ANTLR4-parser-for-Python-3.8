@@ -13,6 +13,6 @@
 
 
 
-### Related links:
+### Related link:
 [Python 3 Lexical Analysis](https://docs.python.org/3/reference/lexical_analysis.html)
 
