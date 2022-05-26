@@ -3,6 +3,7 @@
 ### About files:
  - PythonParser.g4
    is the ANTLR4 parser grammar that based on the last "traditional" [Python grammar](https://docs.python.org/3.8/reference/grammar.html) which not yet written in [PEG](https://en.wikipedia.org/wiki/Parsing_expression_grammar).
+The official grammar of the Python 3.8.12 and 3.8.13 are identical.
 
  - PythonLexerBase.java
    handles the Python indentations.
@@ -10,7 +11,6 @@
    See the instructions in the comments.
    
  - Test files: [Python 3.8 Standard Lib](http://www.jorkka.net:8082/ruuvi/Python-3.8.0/Lib/)
- - The official grammar of the Python 3.8.12 and 3.8.13 are identical
 
 
 ### A simple usage example in command line:
