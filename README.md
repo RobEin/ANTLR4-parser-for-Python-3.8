@@ -1,8 +1,9 @@
-# ANTLR4 parser for Python 3.8.12 and 3.8.13 &nbsp; [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+# ANTLR4 parser for Python 3.8.12 to 3.8.17 &nbsp; [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### About files:
  - PythonParser.g4
    is the ANTLR4 parser grammar that based on the last "traditional" [Python grammar](https://docs.python.org/3.8/reference/grammar.html) which not yet written in [PEG](https://en.wikipedia.org/wiki/Parsing_expression_grammar).
+The official grammar of the Python 3.8.12 to 3.8.17 are the same.
 
  - PythonLexerBase.java
    handles the Python indentations.
