@@ -148,7 +148,7 @@ WS           : [ \t]+         -> channel(HIDDEN);
 LINE_JOINING : '\\' NEWLINE   -> channel(HIDDEN);
 
 /*
- * fragments   (with all capital letters just like in the official Python grammar)
+ * fragments
  */
 
 fragment STRING_LITERAL : STRING_PREFIX? (SHORT_STRING | LONG_STRING);
