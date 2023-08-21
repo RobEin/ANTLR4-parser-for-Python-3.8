@@ -205,4 +205,3 @@ func_type: '(' [typelist] ')' '->' test
 typelist: (test (',' test)* [','
        ['*' [test] (',' test)* [',' '**' test] | '**' test]]
      |  '*' [test] (',' test)* [',' '**' test] | '**' test)
-     
