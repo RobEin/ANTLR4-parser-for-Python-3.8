@@ -204,4 +204,9 @@ func_type: '(' [typelist] ')' '->' test
 # typelist is a modified typedargslist (see above)
 typelist: (test (',' test)* [','
        ['*' [test] (',' test)* [',' '**' test] | '**' test]]
+<<<<<<<< HEAD:Python3_8_17_official_grammar.peg
      |  '*' [test] (',' test)* [',' '**' test] | '**' test)
+========
+     |  '*' [test] (',' test)* [',' '**' test] | '**' test)
+     
+>>>>>>>> 209081aa8c10dde8781adf3fa6aee02a6af68612:Python3_8_17.official_grammar

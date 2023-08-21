@@ -118,7 +118,6 @@ ATEQUAL          : '@=';
 RARROW           : '->';
 ELLIPSIS         : '...';
 COLONEQUAL       : ':=';
-EXCLAMATION      : '!';
 
 NAME
     : ID_START ID_CONTINUE*
