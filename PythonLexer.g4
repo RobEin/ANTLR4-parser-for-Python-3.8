@@ -22,7 +22,7 @@ THE SOFTWARE.
 
  /*
   * Project      : an ANTLR4 lexer grammar for Python 3
-  *                https://github.com/RobEin/ANTLR4-parser-for-Python-3.8.12
+  *                https://github.com/RobEin/ANTLR4-parser-for-Python-3.8
   * Developed by : Robert Einhorn
   */
 
@@ -136,7 +136,7 @@ STRING
     ;
 
 TYPE_COMMENT
-    : '#' WS? 'type:' WS? ~[\r\n\f]*
+    : '#' WS? 'type:' ~[\r\n\f]*
     ;
 
 NEWLINE
