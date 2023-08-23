@@ -22,7 +22,7 @@ THE SOFTWARE.
 
  /*
   * Project      : an ANTLR4 parser grammar by the official Python 3.8 grammar
-  *                https://github.com/RobEin/ANTLR4-parser-for-Python-3.8.12
+  *                https://github.com/RobEin/ANTLR4-parser-for-Python-3.8
   * Developed by : Robert Einhorn
   */
 
