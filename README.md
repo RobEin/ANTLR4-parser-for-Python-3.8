@@ -6,10 +6,8 @@
 
  - PythonLexerBase
    handles the Python indentations.
-   This class also can be used with older ANTLR4 Python grammars.
-   See the instructions in the comments.
    
- - Test files: [Python 3.8 Standard Lib](http://www.jorkka.net:8082/ruuvi/Python-3.8.0/Lib/)
+ - Example files: [Python 3.8 Standard Lib](http://www.jorkka.net:8082/ruuvi/Python-3.8.0/Lib/)
 
 
 ### Related links:
@@ -21,4 +19,6 @@
 
 [Python 3.8 Lexical Analysis](https://docs.python.org/3.8/reference/lexical_analysis.html)
 
-[ANTLR4 Python parser based on official PEG grammar](https://github.com/RobEin/ANTLR4-Python-parser-by-PEG)
+[ANTLR4-parser-for-Python-2.7.18](https://github.com/RobEin/ANTLR4-parser-for-Python-2.7.18)
+
+[ANTLR4 Python parser based on the official PEG grammar](https://github.com/RobEin/ANTLR4-Python-parser-by-PEG)
