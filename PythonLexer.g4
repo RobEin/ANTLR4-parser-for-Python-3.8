@@ -23,7 +23,8 @@ THE SOFTWARE.
  /*
   * Project      : an ANTLR4 lexer grammar for Python 3
   *                https://github.com/RobEin/ANTLR4-parser-for-Python-3.8
-  * Developed by : Bart Kiers, Robert Einhorn
+  * Developed by : Bart Kiers, bart@big-o.nl
+  *                Robert Einhorn, robert.einhorn.hu@gmail.com
   */
 
 lexer grammar PythonLexer;
