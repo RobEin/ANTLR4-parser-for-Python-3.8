@@ -25,10 +25,7 @@ THE SOFTWARE.
  * Developed by : Robert Einhorn
  */
 
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System;
 using Antlr4.Runtime;
 
 public abstract class PythonLexerBase : Lexer
