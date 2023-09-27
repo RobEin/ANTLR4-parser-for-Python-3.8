@@ -10,7 +10,7 @@
 
 ```bash
     copy ..\*.g4
-    copy ..\test.py
+    copy ..\examples\test.py
 ```
 
 ```bash
