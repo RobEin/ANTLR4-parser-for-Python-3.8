@@ -121,7 +121,6 @@ ATEQUAL          : '@=';
 RARROW           : '->';
 ELLIPSIS         : '...';
 COLONEQUAL       : ':=';
-EXCLAMATION      : '!'; // not used
 
 // https://docs.python.org/3.8/reference/lexical_analysis.html#identifiers
 NAME
@@ -143,21 +142,24 @@ STRING
 
 // https://peps.python.org/pep-0484/#type-comments
 TYPE_COMMENT
-   : '#' WS? 'type:' ~[\r\n\f]*
+   : '#' WS? 'type:' ~[\r\n]*
    ;
 
+// https://docs.python.org/3.8/reference/lexical_analysis.html#physical-lines
 NEWLINE
    : OS_INDEPENDENT_NL
    ;
 
 // https://docs.python.org/3.8/reference/lexical_analysis.html#comments
-COMMENT : '#' ~[\r\n\f]*             -> channel(HIDDEN);
+COMMENT : '#' ~[\r\n]*               -> channel(HIDDEN);
 
 // https://docs.python.org/3.8/reference/lexical_analysis.html#whitespace-between-tokens
-WS : [ \t]+                          -> channel(HIDDEN);
+WS : [ \t\f]+                        -> channel(HIDDEN);
 
 // https://docs.python.org/3.8/reference/lexical_analysis.html#explicit-line-joining
 EXPLICIT_LINE_JOINING : '\\' NEWLINE -> channel(HIDDEN);
+
+ERROR_TOKEN : . ; // catch unrecognized characters and redirect these errors to the parser
 
 
 /*
@@ -169,8 +171,16 @@ EXPLICIT_LINE_JOINING : '\\' NEWLINE -> channel(HIDDEN);
 // https://docs.python.org/3.8/reference/lexical_analysis.html#string-and-bytes-literals
 fragment STRING_LITERAL : STRING_PREFIX? (SHORT_STRING | LONG_STRING);
 fragment STRING_PREFIX  : 'r' | 'u' | 'R' | 'U' | 'f' | 'F' | 'fr' | 'Fr' | 'fR' | 'FR' | 'rf' | 'rF' | 'Rf' | 'RF';
-fragment SHORT_STRING   : '\'' SHORT_STRING_ITEM_FOR_SINGLE_QUOTE* '\'' | '"' SHORT_STRING_ITEM_FOR_DOUBLE_QUOTE* '"';
-fragment LONG_STRING    : '\'\'\'' LONG_STRING_ITEM*? '\'\'\'' | '"""' LONG_STRING_ITEM*? '"""';
+
+fragment SHORT_STRING
+   : '\'' SHORT_STRING_ITEM_FOR_SINGLE_QUOTE* '\''
+   | '"'  SHORT_STRING_ITEM_FOR_DOUBLE_QUOTE* '"'
+   ;
+
+fragment LONG_STRING
+   : '\'\'\'' LONG_STRING_ITEM*? '\'\'\''
+   | '"""'    LONG_STRING_ITEM*? '"""'
+   ;
 
 fragment SHORT_STRING_ITEM_FOR_SINGLE_QUOTE : SHORT_STRING_CHAR_NO_SINGLE_QUOTE | STRING_ESCAPE_SEQ;
 fragment SHORT_STRING_ITEM_FOR_DOUBLE_QUOTE : SHORT_STRING_CHAR_NO_DOUBLE_QUOTE | STRING_ESCAPE_SEQ;
@@ -181,14 +191,24 @@ fragment SHORT_STRING_CHAR_NO_SINGLE_QUOTE : ~[\\\r\n'];       // <any source ch
 fragment SHORT_STRING_CHAR_NO_DOUBLE_QUOTE : ~[\\\r\n"];       // <any source character except "\" or newline or double quote>
 
 fragment LONG_STRING_CHAR  : ~'\\';                            // <any source character except "\">
-fragment STRING_ESCAPE_SEQ : '\\' (OS_INDEPENDENT_NL | .);     // <any source character>
-// the OS_INDEPENDENT_NL refers the \<newline> (not \n) escape sequence
-// it will be removed from the string literals by the PythonLexerBase class
+
+fragment STRING_ESCAPE_SEQ
+   : '\\' OS_INDEPENDENT_NL // \<newline> escape sequence
+   | '\\' .                                                    // "\" <any source character>
+   ; // the \<newline> (not \n) escape sequences will be removed from the string literals by the PythonLexerBase class
 
 fragment BYTES_LITERAL : BYTES_PREFIX(SHORT_BYTES | LONG_BYTES);
 fragment BYTES_PREFIX  : 'b' | 'B' | 'br' | 'Br' | 'bR' | 'BR' | 'rb' | 'rB' | 'Rb' | 'RB';
-fragment SHORT_BYTES   : '\'' SHORT_BYTES_ITEM_FOR_SINGLE_QUOTE* '\'' | '"' SHORT_BYTES_ITEM_FOR_DOUBLE_QUOTE* '"';
-fragment LONG_BYTES    : '\'\'\'' LONG_BYTES_ITEM*? '\'\'\'' | '"""' LONG_BYTES_ITEM*? '"""';
+
+fragment SHORT_BYTES
+   : '\'' SHORT_BYTES_ITEM_FOR_SINGLE_QUOTE* '\''
+   | '"'  SHORT_BYTES_ITEM_FOR_DOUBLE_QUOTE* '"'
+   ;
+
+fragment LONG_BYTES
+   : '\'\'\'' LONG_BYTES_ITEM*? '\'\'\''
+   | '"""'    LONG_BYTES_ITEM*? '"""'
+   ;
 
 fragment SHORT_BYTES_ITEM_FOR_SINGLE_QUOTE :  SHORT_BYTES_CHAR_NO_SINGLE_QUOTE | BYTES_ESCAPE_SEQ;
 fragment SHORT_BYTES_ITEM_FOR_DOUBLE_QUOTE :  SHORT_BYTES_CHAR_NO_DOUBLE_QUOTE | BYTES_ESCAPE_SEQ;
