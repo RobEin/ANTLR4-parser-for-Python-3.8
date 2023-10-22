@@ -23,13 +23,19 @@ THE SOFTWARE.
  /*
   * Project      : an ANTLR4 lexer grammar for Python 3
   *                https://github.com/RobEin/ANTLR4-parser-for-Python-3.8
-  * Developed by : Bart Kiers, bart@big-o.nl
-  *                Robert Einhorn, robert.einhorn.hu@gmail.com
+  * Developed by : Robert Einhorn, robert.einhorn.hu@gmail.com
+  *
   */
 
 lexer grammar PythonLexer;
 options { superClass=PythonLexerBase; }
-tokens { INDENT, DEDENT } // https://docs.python.org/3.8/reference/lexical_analysis.html#indentation
+tokens {
+    // https://docs.python.org/3.8/reference/lexical_analysis.html#indentation
+    INDENT, DEDENT
+
+    // the following tokens are only for compatibility with the PythonLexerBase class
+    , FSTRING_START, FSTRING_MIDDLE, FSTRING_END
+}
 
 /*
  * lexer rules    // https://docs.python.org/3.8/reference/lexical_analysis.html
@@ -160,6 +166,21 @@ WS : [ \t\f]+                        -> channel(HIDDEN);
 EXPLICIT_LINE_JOINING : '\\' NEWLINE -> channel(HIDDEN);
 
 ERROR_TOKEN : . ; // catch unrecognized characters and redirect these errors to the parser
+
+
+// the following lexer modes are only for compatibility with the PythonLexerBase class
+mode SINGLE_QUOTE_FSTRING_MODE;
+    A : . ;
+mode DOUBLE_QUOTE_FSTRING_MODE;
+    B : . ;
+mode LONG_SINGLE_QUOTE_FSTRING_MODE;
+    C : . ;
+mode LONG_DOUBLE_QUOTE_FSTRING_MODE;
+    D : . ;
+mode SINGLE_QUOTE_FORMAT_SPECIFICATION_MODE;
+    E : . ;
+mode DOUBLE_QUOTE_FORMAT_SPECIFICATION_MODE;
+    F : . ;
 
 
 /*
