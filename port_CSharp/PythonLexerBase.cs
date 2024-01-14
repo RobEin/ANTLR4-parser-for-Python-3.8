@@ -34,34 +34,51 @@ using Antlr4.Runtime;
 public abstract class PythonLexerBase : Lexer
 {
     // A stack that keeps track of the indentation lengths
-    private Stack<int> _indentLengthStack = new Stack<int>();
+    private Stack<int> _indentLengthStack;
     // A list where tokens are waiting to be loaded into the token stream
-    private LinkedList<IToken> _pendingTokens = new LinkedList<IToken>();
+    private LinkedList<IToken> _pendingTokens;
     // last pending token types
-    private int _previousPendingTokenType = 0;
-    private int _lastPendingTokenTypeFromDefaultChannel = 0;
+    private int _previousPendingTokenType;
+    private int _lastPendingTokenTypeFromDefaultChannel;
 
     // The amount of opened parentheses, square brackets, or curly braces
-    private int _opened = 0;
+    private int _opened;
     //  The amount of opened parentheses and square brackets in the current lexer mode
-    private Stack<int> _paren_or_bracket_openedStack = new Stack<int>();
+    private Stack<int> _paren_or_bracket_openedStack;
 
-    private bool _wasSpaceIndentation = false;
-    private bool _wasTabIndentation = false;
-    private bool _wasIndentationMixedWithSpacesAndTabs = false;
+    private bool _wasSpaceIndentation;
+    private bool _wasTabIndentation;
+    private bool _wasIndentationMixedWithSpacesAndTabs;
     private const int INVALID_LENGTH = -1;
 
-    private CommonToken _curToken = null!; // current (under processing) token
-    private IToken _ffgToken = null!;      // following (look ahead) token
+    private CommonToken _curToken; // current (under processing) token
+    private IToken _ffgToken;      // following (look ahead) token
 
     private const string _ERR_TXT = " ERROR: ";
 
     protected PythonLexerBase(ICharStream input) : base(input)
     {
+        Init();
     }
 
     protected PythonLexerBase(ICharStream input, TextWriter output, TextWriter errorOutput) : base(input, output, errorOutput)
     {
+        Init();
+    }
+
+    private void Init()
+    {
+        _indentLengthStack = new Stack<int>();
+        _pendingTokens = new LinkedList<IToken>();
+        _previousPendingTokenType = 0;
+        _lastPendingTokenTypeFromDefaultChannel = 0;
+        _opened = 0;
+        _paren_or_bracket_openedStack = new Stack<int>();
+        _wasSpaceIndentation = false;
+        _wasTabIndentation = false;
+        _wasIndentationMixedWithSpacesAndTabs = false;
+        _curToken = null!;
+        _ffgToken = null!;
     }
 
     public override IToken NextToken() // reading the input stream until a return EOF
@@ -474,17 +491,7 @@ public abstract class PythonLexerBase : Lexer
 
     public override void Reset()
     {
-        _indentLengthStack = new Stack<int>();
-        _pendingTokens = new LinkedList<IToken>();
-        _previousPendingTokenType = 0;
-        _lastPendingTokenTypeFromDefaultChannel = 0;
-        _opened = 0;
-        _paren_or_bracket_openedStack = new Stack<int>();
-        _wasSpaceIndentation = false;
-        _wasTabIndentation = false;
-        _wasIndentationMixedWithSpacesAndTabs = false;
-        _curToken = null!;
-        _ffgToken = null!;
+        Init();
         base.Reset();
     }
 }
