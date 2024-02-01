@@ -7,11 +7,13 @@
  - PythonLexerBase
    handles the Python indentations
    
- - Example files: [Python 3.8.17 Standard Lib](https://www.python.org/downloads/release/python-3817/)
+ - Example files: [Python 3.8 Standard Lib](https://github.com/python/cpython/tree/3.8)
 
 
 ### Related links:
 [ANTLR 4](https://www.antlr.org/)
+
+[ANTLR4-tools](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md#getting-started-the-easy-way-using-antlr4-tools)
 
 [ANTLR 4 Documentation](https://github.com/antlr/antlr4/tree/master/doc)
 
