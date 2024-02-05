@@ -146,24 +146,22 @@ STRING
    | BYTES_LITERAL
    ;
 
-// https://peps.python.org/pep-0484/#type-comments
-TYPE_COMMENT
-   : '#' WS? 'type:' ~[\r\n]*
-   ;
-
 // https://docs.python.org/3.8/reference/lexical_analysis.html#physical-lines
 NEWLINE
    : OS_INDEPENDENT_NL
    ;
 
+// https://peps.python.org/pep-0484/#type-comments
+TYPE_COMMENT: '#' WS? 'type:' ~[\r\n]* -> channel(HIDDEN);
+
 // https://docs.python.org/3.8/reference/lexical_analysis.html#comments
-COMMENT : '#' ~[\r\n]*               -> channel(HIDDEN);
+COMMENT : '#' ~[\r\n]*                 -> channel(HIDDEN);
 
 // https://docs.python.org/3.8/reference/lexical_analysis.html#whitespace-between-tokens
-WS : [ \t\f]+                        -> channel(HIDDEN);
+WS : [ \t\f]+                          -> channel(HIDDEN);
 
 // https://docs.python.org/3.8/reference/lexical_analysis.html#explicit-line-joining
-EXPLICIT_LINE_JOINING : '\\' NEWLINE -> channel(HIDDEN);
+EXPLICIT_LINE_JOINING : '\\' NEWLINE   -> channel(HIDDEN);
 
 ERROR_TOKEN : . ; // catch unrecognized characters and redirect these errors to the parser
 
