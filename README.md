@@ -18,7 +18,7 @@ That is, all comments that start like this:
 ```
 will be identified as a TYPE_COMMENT token.
 Unfortunately, this is inaccurate because TYPE_COMMENT token is only possible for certain statements.
-Therefore, all TYPE_COMMENT tokens are currently set to hidden:
+Therefore, all TYPE_COMMENT tokens are currently set to hidden in the lexer:
 ```
 TYPE_COMMENT: '#' WS? 'type:' ~[\r\n]* -> channel(HIDDEN);
 ```
