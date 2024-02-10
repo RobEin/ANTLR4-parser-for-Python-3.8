@@ -9,6 +9,7 @@
    
  - Example files: [Python 3.8 Standard Lib](https://github.com/python/cpython/tree/3.8)
 
+<br/><br/>
 ### Known issue:
 The identification of places in the code where type comment might exist, does not work in the lexer yet.
 Therefore, all TYPE_COMMENT tokens are currently hidden:
@@ -25,9 +26,7 @@ TYPE_COMMENT: '#' WS? 'type:' ~[\r\n]*;
 related discussion:
 [Deprecate type comment support?](https://github.com/python/mypy/issues/12947)
 
-
-
-
+<br/><br/>
 ### Related links:
 [ANTLR 4](https://www.antlr.org/)
 
