@@ -30,11 +30,9 @@ THE SOFTWARE.
 lexer grammar PythonLexer;
 options { superClass=PythonLexerBase; }
 tokens {
-    // the following tokens are only for compatibility with the PythonLexerBase class
-    FSTRING_START, FSTRING_MIDDLE, FSTRING_END
-
-    // https://docs.python.org/3.8/reference/lexical_analysis.html#indentation
-  , INDENT, DEDENT
+    INDENT, DEDENT // https://docs.python.org/3.8/reference/lexical_analysis.html#indentation
+  , TYPE_COMMENT // not supported
+  , FSTRING_START, FSTRING_MIDDLE, FSTRING_END // only for compatibility with the PythonLexerBase class
 }
 
 /*
@@ -151,19 +149,16 @@ NEWLINE
    : OS_INDEPENDENT_NL
    ;
 
-// https://peps.python.org/pep-0484/#type-comments
-TYPE_COMMENT: '#' WS? 'type:' ~[\r\n]* -> channel(HIDDEN);
+// https://docs.python.org/3.12/reference/lexical_analysis.html#comments
+COMMENT : '#' ~[\r\n]*               -> channel(HIDDEN);
 
-// https://docs.python.org/3.8/reference/lexical_analysis.html#comments
-COMMENT : '#' ~[\r\n]*                 -> channel(HIDDEN);
+// https://docs.python.org/3.12/reference/lexical_analysis.html#whitespace-between-tokens
+WS : [ \t\f]+                        -> channel(HIDDEN);
 
-// https://docs.python.org/3.8/reference/lexical_analysis.html#whitespace-between-tokens
-WS : [ \t\f]+                          -> channel(HIDDEN);
+// https://docs.python.org/3.12/reference/lexical_analysis.html#explicit-line-joining
+EXPLICIT_LINE_JOINING : '\\' NEWLINE -> channel(HIDDEN);
 
-// https://docs.python.org/3.8/reference/lexical_analysis.html#explicit-line-joining
-EXPLICIT_LINE_JOINING : '\\' NEWLINE   -> channel(HIDDEN);
-
-ERROR_TOKEN : . ; // catch unrecognized characters and redirect these errors to the parser
+ERRORTOKEN : . ; // catch the unrecognized characters and redirect these errors to the parser
 
 
 // the following lexer modes are only for compatibility with the PythonLexerBase class
