@@ -10,13 +10,6 @@
  - Example files: [Python 3.8 Standard Lib](https://github.com/python/cpython/tree/3.8)
 
 <br/><br/>
-### Known issue:
-The parsing of [type comments](https://peps.python.org/pep-0484/#type-comments) is not supported.
-
-related discussion:\
-[Deprecate type comment support?](https://github.com/python/mypy/issues/12947)
-
-<br/><br/>
 ### Related links:
 [ANTLR 4](https://www.antlr.org/)
 
