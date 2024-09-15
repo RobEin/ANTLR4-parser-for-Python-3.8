@@ -1,4 +1,4 @@
-# ANTLR4 parser for Python 3.8.18 &nbsp; [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+# ANTLR4 parser for Python 3.8.20 &nbsp; [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### About files:
  - PythonParser.g4

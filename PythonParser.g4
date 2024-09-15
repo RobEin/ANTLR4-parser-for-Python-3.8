@@ -26,7 +26,7 @@ THE SOFTWARE.
   * Developed by : Robert Einhorn
   */
 
-parser grammar PythonParser; // Python 3.8.17    https://docs.python.org/3.8/reference/grammar.html
+parser grammar PythonParser; // Python 3.8.20    https://docs.python.org/3.8/reference/grammar.html
 options { tokenVocab=PythonLexer; }
 // ANTLR4 grammar for Python
 
