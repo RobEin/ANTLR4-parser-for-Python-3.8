@@ -32,7 +32,6 @@ options { superClass=PythonLexerBase; }
 tokens {
     INDENT, DEDENT // https://docs.python.org/3.8/reference/lexical_analysis.html#indentation
   , TYPE_COMMENT // not supported, only for compatibility with the PythonParser.g4 grammar
-  , FSTRING_START, FSTRING_MIDDLE, FSTRING_END // only for compatibility with the PythonLexerBase class
 }
 
 /*
