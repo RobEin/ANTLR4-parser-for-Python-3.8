@@ -14,7 +14,7 @@
 ### Recent changes:
 - added ENCODING token<br/><br/>
 
-#### [Previous changes](https://github.com/RobEin/ANTLR4-parser-for-Python-3.8/blob/main/README.md)<br/><br/>
+#### [Previous changes](https://github.com/RobEin/ANTLR4-parser-for-Python-3.8/blob/main/changes.md)<br/><br/>
 
 ### Related links:
 [ANTLR 4](https://www.antlr.org/)
