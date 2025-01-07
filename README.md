@@ -1,10 +1,10 @@
 # ANTLR4 parser for Python 3.8.20 &nbsp; [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### About files:
- - PythonParser.g4
+ - PythonParser.g4<br/><br/>
   is the ANTLR4 parser grammar that based on the last "traditional" [Python grammar](https://docs.python.org/3.8/reference/grammar.html) which not yet written in [PEG](https://peps.python.org/pep-0617/)<br/><br/>
 
- - PythonLexerBase
+ - PythonLexerBase:
    - handles the Python indentations
    - creates encoding token
    - tokenizes fstring literals
