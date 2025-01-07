@@ -12,7 +12,7 @@
  - Example files from: [Python 3.8 Standard Lib](https://github.com/python/cpython/tree/3.8/Lib)
 
 ### Recent changes:
-- added ENCODING token<br/><br/>
+- added ENCODING token
 
 #### [Previous changes](https://github.com/RobEin/ANTLR4-parser-for-Python-3.8/blob/main/changes.md)<br/><br/>
 
