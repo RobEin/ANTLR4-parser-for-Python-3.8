@@ -6,7 +6,6 @@
  - PythonLexerBase:
    - handles the Python indentations
    - creates encoding token
-   - tokenizes fstring literals
    - and manage many other things<br/><br/>
 
  - Example files from: [Python 3.8 Standard Lib](https://github.com/python/cpython/tree/3.8/Lib)
