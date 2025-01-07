@@ -26,10 +26,12 @@ THE SOFTWARE.
   * Developed by : Robert Einhorn
   */
 
-parser grammar PythonParser; // Python 3.8.20    https://docs.python.org/3.8/reference/grammar.html
-options { tokenVocab=PythonLexer; }
-// ANTLR4 grammar for Python
+// Python 3.8.20    https://docs.python.org/3.8/reference/grammar.html
+parser grammar PythonParser;
 
+options { tokenVocab=PythonLexer; }
+
+// ANTLR4 grammar for Python
 
 single_input: NEWLINE | simple_stmt | compound_stmt NEWLINE;
 file_input: (NEWLINE | stmt)* EOF;
@@ -157,9 +159,9 @@ or_test: and_test ('or' and_test)*;
 and_test: not_test ('and' not_test)*;
 not_test: 'not' not_test | comparison;
 comparison: expr (comp_op expr)*;
-// <> isn't actually a valid comparison operator in Python. It's here for the
-// sake of a __future__ import described in PEP 401 (which really works :-)
-comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='|'in'|'not' 'in'|'is'|'is' 'not';
+
+
+comp_op: '<'|'>'|'=='|'>='|'<='|'!='|'in'|'not' 'in'|'is'|'is' 'not';
 star_expr: '*' expr;
 expr: xor_expr ('|' xor_expr)*;
 xor_expr: and_expr ('^' and_expr)*;
@@ -226,3 +228,11 @@ func_type: '(' typelist? ')' '->' test;
 typelist: (test (',' test)* (','
        ('*' test? (',' test)* (',' '**' test)? | '**' test)?)?
      |  '*' test? (',' test)* (',' '**' test)? | '**' test);
+
+
+
+// **************************************************************************************************
+// The following empty rules are not used, are only for compatibility with the PythonLexerBase class.
+dictcomp:;
+setcomp:;
+// **************************************************************************************************

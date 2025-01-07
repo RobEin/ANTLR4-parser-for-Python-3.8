@@ -2,14 +2,21 @@
 
 ### About files:
  - PythonParser.g4
-   is the ANTLR4 parser grammar that based on the last "traditional" [Python grammar](https://docs.python.org/3.8/reference/grammar.html) which not yet written in [PEG](https://peps.python.org/pep-0617/)
+   is the ANTLR4 parser grammar that based on the last "traditional" [Python grammar](https://docs.python.org/3.8/reference/grammar.html) which not yet written in [PEG](https://peps.python.org/pep-0617/)<br/><br/>
 
  - PythonLexerBase
-   handles the Python indentations
-   
- - Example files: [Python 3.8 Standard Lib](https://github.com/python/cpython/tree/3.8)
+   - handles the Python indentations
+   - creates encoding token
+   - tokenizes fstring literals
+   - and manage many other things<br/><br/>
 
-<br/><br/>
+ - Example files from: [Python 3.8 Standard Lib](https://github.com/python/cpython/tree/3.8)
+
+### Recent changes:
+- added ENCODING token<br/><br/>
+
+#### [Previous changes]()<br/><br/>
+
 ### Related links:
 [ANTLR 4](https://www.antlr.org/)
 

@@ -28,15 +28,70 @@ THE SOFTWARE.
   */
 
 lexer grammar PythonLexer;
+
 options { superClass=PythonLexerBase; }
+
 tokens {
-    INDENT, DEDENT // https://docs.python.org/3.8/reference/lexical_analysis.html#indentation
+    ENCODING // https://docs.python.org/3.8/reference/lexical_analysis.html#encoding-declarations
+  , INDENT, DEDENT // https://docs.python.org/3.8/reference/lexical_analysis.html#indentation
   , TYPE_COMMENT // not supported, only for compatibility with the PythonParser.g4 grammar
+  , FSTRING_START, FSTRING_MIDDLE, FSTRING_END // are not used, only for compatibility with the PythonLexerBase class
 }
+
 
 /*
  * lexer rules    // https://docs.python.org/3.8/reference/lexical_analysis.html
  */
+
+// https://docs.python.org/3.8/library/token.html#token.OP
+LPAR             : '(';  // OPEN_PAREN
+LSQB             : '[';  // OPEN_BRACK
+LBRACE           : '{';  // OPEN_BRACE
+RPAR             : ')';  // CLOSE_PAREN
+RSQB             : ']';  // CLOSE_BRACK
+RBRACE           : '}';  // CLOSE_BRACE
+COLON            : ':';
+COMMA            : ',';
+SEMI             : ';';
+PLUS             : '+';
+MINUS            : '-';
+STAR             : '*';
+SLASH            : '/';
+VBAR             : '|';
+AMPER            : '&';
+LESS             : '<';
+GREATER          : '>';
+EQUAL            : '=';
+DOT              : '.';
+PERCENT          : '%';
+EQEQUAL          : '==';
+// INEQUAL          : '<>'; // <> isn't actually a valid comparison operator in Python. It's here for the sake of a __future__ import described in PEP 401 (which really works :-)
+NOTEQUAL         : '!=';
+LESSEQUAL        : '<=';
+GREATEREQUAL     : '>=';
+TILDE            : '~';
+CIRCUMFLEX       : '^';
+LEFTSHIFT        : '<<';
+RIGHTSHIFT       : '>>';
+DOUBLESTAR       : '**';
+PLUSEQUAL        : '+=';
+MINEQUAL         : '-=';
+STAREQUAL        : '*=';
+SLASHEQUAL       : '/=';
+PERCENTEQUAL     : '%=';
+AMPEREQUAL       : '&=';
+VBAREQUAL        : '|=';
+CIRCUMFLEXEQUAL  : '^=';
+LEFTSHIFTEQUAL   : '<<=';
+RIGHTSHIFTEQUAL  : '>>=';
+DOUBLESTAREQUAL  : '**=';
+DOUBLESLASH      : '//';
+DOUBLESLASHEQUAL : '//=';
+AT               : '@';
+ATEQUAL          : '@=';
+RARROW           : '->';
+ELLIPSIS         : '...';
+COLONEQUAL       : ':=';
 
 // https://docs.python.org/3.8/reference/lexical_analysis.html#keywords
 FALSE    : 'False';
@@ -75,56 +130,6 @@ IF       : 'if';
 OR       : 'or';
 YIELD    : 'yield';
 
-// https://docs.python.org/3.8/library/token.html#token.OP
-LPAR             : '(';  // OPEN_PAREN
-LSQB             : '[';  // OPEN_BRACK
-LBRACE           : '{';  // OPEN_BRACE
-RPAR             : ')';  // CLOSE_PAREN
-RSQB             : ']';  // CLOSE_BRACK
-RBRACE           : '}';  // CLOSE_BRACE
-COLON            : ':';
-COMMA            : ',';
-SEMI             : ';';
-PLUS             : '+';
-MINUS            : '-';
-STAR             : '*';
-SLASH            : '/';
-VBAR             : '|';
-AMPER            : '&';
-LESS             : '<';
-GREATER          : '>';
-EQUAL            : '=';
-DOT              : '.';
-PERCENT          : '%';
-EQEQUAL          : '==';
-INEQUAL          : '<>'; // <> isn't actually a valid comparison operator in Python. It's here for the sake of a __future__ import described in PEP 401 (which really works :-)
-NOTEQUAL         : '!=';
-LESSEQUAL        : '<=';
-GREATEREQUAL     : '>=';
-TILDE            : '~';
-CIRCUMFLEX       : '^';
-LEFTSHIFT        : '<<';
-RIGHTSHIFT       : '>>';
-DOUBLESTAR       : '**';
-PLUSEQUAL        : '+=';
-MINEQUAL         : '-=';
-STAREQUAL        : '*=';
-SLASHEQUAL       : '/=';
-PERCENTEQUAL     : '%=';
-AMPEREQUAL       : '&=';
-VBAREQUAL        : '|=';
-CIRCUMFLEXEQUAL  : '^=';
-LEFTSHIFTEQUAL   : '<<=';
-RIGHTSHIFTEQUAL  : '>>=';
-DOUBLESTAREQUAL  : '**=';
-DOUBLESLASH      : '//';
-DOUBLESLASHEQUAL : '//=';
-AT               : '@';
-ATEQUAL          : '@=';
-RARROW           : '->';
-ELLIPSIS         : '...';
-COLONEQUAL       : ':=';
-
 // https://docs.python.org/3.8/reference/lexical_analysis.html#identifiers
 NAME
    : ID_START ID_CONTINUE*
@@ -147,24 +152,16 @@ STRING
 NEWLINE : '\r'? '\n'; // Unix, Windows
 
 // https://docs.python.org/3.12/reference/lexical_analysis.html#comments
-COMMENT : '#' ~[\r\n]*               -> channel(HIDDEN);
+COMMENT : '#' ~[\r\n]*                    -> channel(HIDDEN);
 
 // https://docs.python.org/3.12/reference/lexical_analysis.html#whitespace-between-tokens
-WS : [ \t\f]+                        -> channel(HIDDEN);
+WS : [ \t\f]+                             -> channel(HIDDEN);
 
 // https://docs.python.org/3.12/reference/lexical_analysis.html#explicit-line-joining
-EXPLICIT_LINE_JOINING : '\\' NEWLINE -> channel(HIDDEN);
+EXPLICIT_LINE_JOINING : BACKSLASH_NEWLINE -> channel(HIDDEN);
 
-ERRORTOKEN : . ; // catch the unrecognized characters and redirect these errors to the parser
-
-
-// the following lexer modes are only for compatibility with the PythonLexerBase class
-mode SINGLE_QUOTE_FSTRING_MODE; A : . ;
-mode DOUBLE_QUOTE_FSTRING_MODE; B : . ;
-mode LONG_SINGLE_QUOTE_FSTRING_MODE; C : . ;
-mode LONG_DOUBLE_QUOTE_FSTRING_MODE; D : . ;
-mode SINGLE_QUOTE_FORMAT_SPECIFICATION_MODE; E : . ;
-mode DOUBLE_QUOTE_FORMAT_SPECIFICATION_MODE; F : . ;
+// catch the unrecognized characters
+ERRORTOKEN : . ; // PythonLexerBase class will report an error about this (the ERRORTOKEN will also cause an error in the parser)
 
 
 /*
@@ -175,50 +172,50 @@ mode DOUBLE_QUOTE_FORMAT_SPECIFICATION_MODE; F : . ;
 
 // https://docs.python.org/3.8/reference/lexical_analysis.html#string-and-bytes-literals
 fragment STRING_LITERAL : STRING_PREFIX? (SHORT_STRING | LONG_STRING);
-fragment STRING_PREFIX  : 'r' | 'u' | 'R' | 'U' | 'f' | 'F' | 'fr' | 'Fr' | 'fR' | 'FR' | 'rf' | 'rF' | 'Rf' | 'RF';
+
+// 'r' | 'u' | 'R' | 'U' | 'f' | 'F' | 'fr' | 'Fr' | 'fR' | 'FR' | 'rf' | 'rF' | 'Rf' | 'RF';
+fragment STRING_PREFIX options { caseInsensitive=true; } : 'r' | 'u' | 'f' | 'fr' | 'rf';
 
 fragment SHORT_STRING
-   : '\'' SHORT_STRING_ITEM_FOR_SINGLE_QUOTE* '\''
-   | '"'  SHORT_STRING_ITEM_FOR_DOUBLE_QUOTE* '"'
-   ;
+    : ['] SHORT_STRING_ITEM_FOR_SINGLE_QUOTE* [']
+    | ["] SHORT_STRING_ITEM_FOR_DOUBLE_QUOTE* ["]
+    ;
 
 fragment LONG_STRING
-   : '\'\'\'' LONG_STRING_ITEM*? '\'\'\''
-   | '"""'    LONG_STRING_ITEM*? '"""'
-   ;
+    : ['][']['] LONG__STRING_ITEM*? ['][']['] // nongreede
+    | ["]["]["] LONG__STRING_ITEM*? ["]["]["] // nongreede
+    ;
 
 fragment SHORT_STRING_ITEM_FOR_SINGLE_QUOTE : SHORT_STRING_CHAR_NO_SINGLE_QUOTE | STRING_ESCAPE_SEQ;
 fragment SHORT_STRING_ITEM_FOR_DOUBLE_QUOTE : SHORT_STRING_CHAR_NO_DOUBLE_QUOTE | STRING_ESCAPE_SEQ;
-
-fragment LONG_STRING_ITEM : LONG_STRING_CHAR | STRING_ESCAPE_SEQ;
+fragment LONG__STRING_ITEM : LONG_STRING_CHAR | STRING_ESCAPE_SEQ;
 
 fragment SHORT_STRING_CHAR_NO_SINGLE_QUOTE : ~[\\\r\n'];       // <any source character except "\" or newline or singel quote>
 fragment SHORT_STRING_CHAR_NO_DOUBLE_QUOTE : ~[\\\r\n"];       // <any source character except "\" or newline or double quote>
-
 fragment LONG_STRING_CHAR  : ~'\\';                            // <any source character except "\">
 
-fragment STRING_ESCAPE_SEQ // https://docs.python.org/3.8/reference/lexical_analysis.html#string-and-bytes-literals
-   : '\\' '\r' '\n'   // for the two-character Windows line break: \<newline> escape sequence (string literal line continuation)
-   | '\\' .                                                    // "\" <any source character>
-   ;
+// https://docs.python.org/3.8/reference/lexical_analysis.html#string-and-bytes-literals
+fragment STRING_ESCAPE_SEQ : ESCAPE_SEQ_NEWLINE | '\\' .;      // "\" <any source character>
 
-fragment BYTES_LITERAL : BYTES_PREFIX(SHORT_BYTES | LONG_BYTES);
-fragment BYTES_PREFIX  : 'b' | 'B' | 'br' | 'Br' | 'bR' | 'BR' | 'rb' | 'rB' | 'Rb' | 'RB';
+
+// https://docs.python.org/3.8/reference/lexical_analysis.html#string-and-bytes-literals
+fragment BYTES_LITERAL : BYTES_PREFIX (SHORT_BYTES | LONG_BYTES);
+fragment BYTES_PREFIX options { caseInsensitive=true; } : 'b' | 'br' | 'rb'; // 'b' | 'B' | 'br' | 'Br' | 'bR' | 'BR' | 'rb' | 'rB' | 'Rb' | 'RB'
 
 fragment SHORT_BYTES
-   : '\'' SHORT_BYTES_ITEM_FOR_SINGLE_QUOTE* '\''
-   | '"'  SHORT_BYTES_ITEM_FOR_DOUBLE_QUOTE* '"'
-   ;
+    : ['] SHORT_BYTES_ITEM_FOR_SINGLE_QUOTE* [']
+    | ["] SHORT_BYTES_ITEM_FOR_DOUBLE_QUOTE* ["]
+    ;
 
 fragment LONG_BYTES
-   : '\'\'\'' LONG_BYTES_ITEM*? '\'\'\''
-   | '"""'    LONG_BYTES_ITEM*? '"""'
-   ;
+    : ['][']['] LONG_BYTES_ITEM*? ['][']['] // nongreede
+    | ["]["]["] LONG_BYTES_ITEM*? ["]["]["] // nongreede
+    ;
 
 fragment SHORT_BYTES_ITEM_FOR_SINGLE_QUOTE :  SHORT_BYTES_CHAR_NO_SINGLE_QUOTE | BYTES_ESCAPE_SEQ;
 fragment SHORT_BYTES_ITEM_FOR_DOUBLE_QUOTE :  SHORT_BYTES_CHAR_NO_DOUBLE_QUOTE | BYTES_ESCAPE_SEQ;
 
-fragment LONG_BYTES_ITEM  : LONG_BYTES_CHAR | BYTES_ESCAPE_SEQ;
+fragment LONG_BYTES_ITEM : LONG_BYTES_CHAR | BYTES_ESCAPE_SEQ;
 
 fragment SHORT_BYTES_CHAR_NO_SINGLE_QUOTE                      // <any ASCII character except "\" or newline or single quote>
    : [\u0000-\u0009]
@@ -238,6 +235,10 @@ fragment SHORT_BYTES_CHAR_NO_DOUBLE_QUOTE                      // <any ASCII cha
 
 fragment LONG_BYTES_CHAR  : [\u0000-\u005B] | [\u005D-\u007F]; // <any ASCII character except "\">
 fragment BYTES_ESCAPE_SEQ : '\\' [\u0000-\u007F];              // "\" <any ASCII character>
+
+fragment ESCAPE_SEQ_NEWLINE : BACKSLASH_NEWLINE; // it is a kind of line continuation for string literals (backslash and newline will be ignored)
+
+fragment BACKSLASH_NEWLINE : '\\' NEWLINE;
 
 // https://docs.python.org/3.8/reference/lexical_analysis.html#integer-literals
 fragment INTEGER        : DEC_INTEGER | BIN_INTEGER | OCT_INTEGER | HEX_INTEGER;
@@ -263,8 +264,8 @@ fragment EXPONENT       : ('e' | 'E') ('+' | '-')? DIGIT_PART;
 fragment IMAG_NUMBER : (FLOAT_NUMBER | DIGIT_PART) ('j' | 'J');
 
 // https://github.com/RobEin/ANTLR4-parser-for-Python-3.8/tree/main/valid_chars_in_py_identifiers
-fragment ID_CONTINUE:
-    ID_START
+fragment ID_CONTINUE
+    : ID_START
     | '\u{0030}' .. '\u{0039}'
     | '\u{00B7}'
     | '\u{0300}' .. '\u{036F}'
@@ -607,11 +608,11 @@ fragment ID_CONTINUE:
     | '\u{1E944}' .. '\u{1E94A}'
     | '\u{1E950}' .. '\u{1E959}'
     | '\u{E0100}' .. '\u{E01EF}'
-;
+    ;
 
 // https://github.com/RobEin/ANTLR4-parser-for-Python-3.8/tree/main/valid_chars_in_py_identifiers
-fragment ID_START:
-    '\u{0041}' .. '\u{005A}'
+fragment ID_START
+    : '\u{0041}' .. '\u{005A}'
     | '\u{005F}'
     | '\u{0061}' .. '\u{007A}'
     | '\u{00AA}'
@@ -1228,4 +1229,26 @@ fragment ID_START:
     | '\u{2B820}' .. '\u{2CEA1}'
     | '\u{2CEB0}' .. '\u{2EBE0}'
     | '\u{2F800}' .. '\u{2FA1D}'
-;
+    ;
+
+
+
+// **************************************************************************************************
+// The following lexer modes are not used, are only for compatibility with the PythonLexerBase class.
+mode SQ1__FSTRING_MODE; A : . ;
+mode SQ1R_FSTRING_MODE; B : . ;
+mode DQ1__FSTRING_MODE; C : . ;
+mode DQ1R_FSTRING_MODE; D : . ;
+mode SQ3__FSTRING_MODE; E : . ;
+mode SQ3R_FSTRING_MODE; F : . ;
+mode DQ3__FSTRING_MODE; G : . ;
+mode DQ3R_FSTRING_MODE; H : . ;
+mode SQ1__FORMAT_SPECIFICATION_MODE; I : . ;
+mode SQ1R_FORMAT_SPECIFICATION_MODE; J : . ;
+mode DQ1__FORMAT_SPECIFICATION_MODE; K : . ;
+mode DQ1R_FORMAT_SPECIFICATION_MODE; L : . ;
+mode SQ3__FORMAT_SPECIFICATION_MODE; M : . ;
+mode SQ3R_FORMAT_SPECIFICATION_MODE; N : . ;
+mode DQ3__FORMAT_SPECIFICATION_MODE; O : . ;
+mode DQ3R_FORMAT_SPECIFICATION_MODE; P : . ;
+// **************************************************************************************************
