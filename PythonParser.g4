@@ -21,12 +21,12 @@ THE SOFTWARE.
  */
 
  /*
-  * Project      : an ANTLR4 parser grammar by the official Python 3.8 grammar
+  * Project      : an ANTLR4 parser grammar for Python 3.8.20 programming language based on the official grammar
   *                https://github.com/RobEin/ANTLR4-parser-for-Python-3.8
   * Developed by : Robert Einhorn
   */
 
-// Python 3.8.20    https://docs.python.org/3.8/reference/grammar.html
+// https://docs.python.org/3.8/reference/grammar.html
 parser grammar PythonParser;
 
 options { tokenVocab=PythonLexer; }

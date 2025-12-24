@@ -1,3 +1,7 @@
+# Dec. 24, 2025
+- tokenizing BOM Unicode character at the start of the file so it is skipped in the token stream
+- moved encoding detection from PythonLexerBase to a separate component (grun4py)
+
 # Jan. 07, 2025
 - added ENCODING token
 

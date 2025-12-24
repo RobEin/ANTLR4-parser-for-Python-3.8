@@ -21,7 +21,7 @@ THE SOFTWARE.
  */
 
  /*
-  * Project      : an ANTLR4 lexer grammar for Python 3
+  * Project      : an ANTLR4 lexer grammar for Python 3.8 programming language
   *                https://github.com/RobEin/ANTLR4-parser-for-Python-3.8
   * Developed by : Robert Einhorn, robert.einhorn.hu@gmail.com
   *
@@ -29,6 +29,7 @@ THE SOFTWARE.
 
 lexer grammar PythonLexer;
 
+// the helper class for this grammar that assists in tokenizing indentation
 options { superClass=PythonLexerBase; }
 
 tokens {
@@ -36,6 +37,7 @@ tokens {
   , INDENT, DEDENT // https://docs.python.org/3.8/reference/lexical_analysis.html#indentation
   , TYPE_COMMENT // not supported, only for compatibility with the PythonParser.g4 grammar
   , FSTRING_START, FSTRING_MIDDLE, FSTRING_END // are not used, only for compatibility with the PythonLexerBase class
+  , TSTRING_START, TSTRING_MIDDLE, TSTRING_END // are not used, only for compatibility with the PythonLexerBase class
 }
 
 
@@ -43,13 +45,18 @@ tokens {
  * lexer rules    // https://docs.python.org/3.8/reference/lexical_analysis.html
  */
 
+// https://docs.python.org/3.8/reference/lexical_analysis.html#encoding-declarations
+BOM : '\uFEFF';
+// The BOM unicode character indicates that a BOM byte sequence (for Python is only UTF‑8: EF BB BF) was present at the start of the file.
+// It is not part of Python source code and is therefore skipped in PythonLexerBase.
+
 // https://docs.python.org/3.8/library/token.html#token.OP
-LPAR             : '(';  // OPEN_PAREN
-LSQB             : '[';  // OPEN_BRACK
-LBRACE           : '{';  // OPEN_BRACE
-RPAR             : ')';  // CLOSE_PAREN
-RSQB             : ']';  // CLOSE_BRACK
-RBRACE           : '}';  // CLOSE_BRACE
+LPAR             : '(';
+LSQB             : '[';
+LBRACE           : '{';
+RPAR             : ')';
+RSQB             : ']';
+RBRACE           : '}';
 COLON            : ':';
 COMMA            : ',';
 SEMI             : ';';
@@ -264,7 +271,7 @@ fragment EXPONENT       : ('e' | 'E') ('+' | '-')? DIGIT_PART;
 fragment IMAG_NUMBER : (FLOAT_NUMBER | DIGIT_PART) ('j' | 'J');
 
 // https://github.com/RobEin/ANTLR4-parser-for-Python-3.8/tree/main/valid_chars_in_py_identifiers
-fragment ID_CONTINUE
+fragment ID_CONTINUE // for Python 3.8
     : ID_START
     | '\u{0030}' .. '\u{0039}'
     | '\u{00B7}'
@@ -611,7 +618,7 @@ fragment ID_CONTINUE
     ;
 
 // https://github.com/RobEin/ANTLR4-parser-for-Python-3.8/tree/main/valid_chars_in_py_identifiers
-fragment ID_START
+fragment ID_START // for Python 3.8
     : '\u{0041}' .. '\u{005A}'
     | '\u{005F}'
     | '\u{0061}' .. '\u{007A}'
@@ -1235,20 +1242,38 @@ fragment ID_START
 
 // **************************************************************************************************
 // The following lexer modes are not used, are only for compatibility with the PythonLexerBase class.
+// **************************************************************************************************
 mode SQ1__FSTRING_MODE; A : . ;
-mode SQ1R_FSTRING_MODE; B : . ;
-mode DQ1__FSTRING_MODE; C : . ;
-mode DQ1R_FSTRING_MODE; D : . ;
-mode SQ3__FSTRING_MODE; E : . ;
-mode SQ3R_FSTRING_MODE; F : . ;
-mode DQ3__FSTRING_MODE; G : . ;
-mode DQ3R_FSTRING_MODE; H : . ;
-mode SQ1__FORMAT_SPECIFICATION_MODE; I : . ;
-mode SQ1R_FORMAT_SPECIFICATION_MODE; J : . ;
-mode DQ1__FORMAT_SPECIFICATION_MODE; K : . ;
-mode DQ1R_FORMAT_SPECIFICATION_MODE; L : . ;
-mode SQ3__FORMAT_SPECIFICATION_MODE; M : . ;
-mode SQ3R_FORMAT_SPECIFICATION_MODE; N : . ;
-mode DQ3__FORMAT_SPECIFICATION_MODE; O : . ;
-mode DQ3R_FORMAT_SPECIFICATION_MODE; P : . ;
+mode SQ1__TSTRING_MODE; B : . ;
+mode SQ1R_FSTRING_MODE; C : . ;
+mode SQ1R_TSTRING_MODE; D : . ;
+mode DQ1__FSTRING_MODE; E : . ;
+mode DQ1__TSTRING_MODE; F : . ;
+mode DQ1R_FSTRING_MODE; G : . ;
+mode DQ1R_TSTRING_MODE; H : . ;
+mode SQ3__FSTRING_MODE; I : . ;
+mode SQ3__TSTRING_MODE; J : . ;
+mode SQ3R_FSTRING_MODE; K : . ;
+mode SQ3R_TSTRING_MODE; L : . ;
+mode DQ3__FSTRING_MODE; M : . ;
+mode DQ3__TSTRING_MODE; N : . ;
+mode DQ3R_FSTRING_MODE; O : . ;
+mode DQ3R_TSTRING_MODE; P : . ;
+
+mode SQ1__FSTRING_FORMAT_SPECIFICATION_MODE; AA : . ;
+mode SQ1__TSTRING_FORMAT_SPECIFICATION_MODE; BB : . ;
+mode SQ1R_FSTRING_FORMAT_SPECIFICATION_MODE; CC : . ;
+mode SQ1R_TSTRING_FORMAT_SPECIFICATION_MODE; DD : . ;
+mode DQ1__FSTRING_FORMAT_SPECIFICATION_MODE; EE : . ;
+mode DQ1__TSTRING_FORMAT_SPECIFICATION_MODE; FF : . ;
+mode DQ1R_FSTRING_FORMAT_SPECIFICATION_MODE; GG : . ;
+mode DQ1R_TSTRING_FORMAT_SPECIFICATION_MODE; HH : . ;
+mode SQ3__FSTRING_FORMAT_SPECIFICATION_MODE; II : . ;
+mode SQ3__TSTRING_FORMAT_SPECIFICATION_MODE; JJ : . ;
+mode SQ3R_FSTRING_FORMAT_SPECIFICATION_MODE; KK : . ;
+mode SQ3R_TSTRING_FORMAT_SPECIFICATION_MODE; LL : . ;
+mode DQ3__FSTRING_FORMAT_SPECIFICATION_MODE; MM : . ;
+mode DQ3__TSTRING_FORMAT_SPECIFICATION_MODE; NN : . ;
+mode DQ3R_FSTRING_FORMAT_SPECIFICATION_MODE; OO : . ;
+mode DQ3R_TSTRING_FORMAT_SPECIFICATION_MODE; PP : . ;
 // **************************************************************************************************

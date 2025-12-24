@@ -5,13 +5,14 @@
 - Installed [Python 3](https://www.python.org/downloads/)
 - Installed [ANTLR4 Python 3 runtime](https://pypi.org/project/antlr4-python3-runtime/)
 
+
 #### Command line example:
 - first copy the two grammar files and the example.py to this directory:
 
-Unix:
+Linux:
 ```bash
-    cp ../*.g4 .
-    cp ../example.py .
+    cp ../*.g4
+    cp ../example.py
 ```
 
 Windows:
@@ -23,10 +24,10 @@ Windows:
 ```bash
 antlr4 -Dlanguage=Python3 PythonLexer.g4
 antlr4 -Dlanguage=Python3 PythonParser.g4
-pygrun --tokens Python file_input example.py
+python grun4py.py example.py
 pygrun --tree Python file_input example.py
 ```
 
 
 #### Related link:
-[Python 3 target](https://github.com/antlr/antlr4/blob/master/doc/python-target.md)
+[ANTLR4 Python 3 target](https://github.com/antlr/antlr4/blob/master/doc/python-target.md)
