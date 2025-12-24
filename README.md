@@ -8,9 +8,7 @@
    - creates encoding token
    - and manage many other things<br/><br/>
 
- - Example files from: [Python 3.8 Standard Lib](https://github.com/python/cpython/tree/3.8/Lib)
-
-### Recent changes:
+ ### Recent changes:
 - tokenizing BOM Unicode character at the start of the file so it is skipped in the token stream
 - moved encoding detection from PythonLexerBase to a separate component (grun4py)
 
