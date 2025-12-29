@@ -1,6 +1,5 @@
-"""Generate ANTLR4 grammar fragments for Python Unicode identifiers.
-
-Related link: https://github.com/asmeurer/python-unicode-variable-names
+""" related link:  https://github.com/asmeurer/python-unicode-variable-names
+Generate ANTLR4 grammar fragments for Python Unicode identifiers.
 """
 
 import sys
@@ -10,10 +9,21 @@ from typing import List
 
 def main() -> None:
     """Generate and save ANTLR4 ID_START and ID_CONTINUE fragments."""
+    print("main")
     python_version = f"for Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
     
-    start_codes = _collect_identifier_codes(is_start=True)
-    continue_codes = _collect_identifier_codes(is_start=False)
+    start_codes = []
+    continue_codes = []
+
+    for i in range(sys.maxunicode + 1):
+        c = chr(i)
+        if c.isidentifier():
+            start_codes.append(i)
+        else:
+            test_id = 'a' + c
+            if test_id.isidentifier():
+                continue_codes.append(i)
+
     
     continue_fragment = _build_continue_fragment(continue_codes, python_version)
     start_fragment = _build_start_fragment(start_codes, python_version)
@@ -22,32 +32,6 @@ def main() -> None:
     
     print(output)
     _save_to_file(output, "fragment_ID.txt")
-
-
-def _collect_identifier_codes(is_start: bool) -> List[int]:
-    """Collect Unicode code points valid as identifier start or continue characters.
-    
-    Args:
-        is_start: If True, collect characters valid as identifier start.
-                  If False, collect characters valid as identifier continue.
-    
-    Returns:
-        Sorted list of Unicode code points.
-    """
-    codes = []
-    
-    for i in range(sys.maxunicode + 1):
-        c = chr(i)
-        
-        if is_start:
-            if c.isidentifier():
-                codes.append(i)
-        else:
-            # Check if character can continue an identifier (preceded by 'a')
-            if ('a' + c).isidentifier():
-                codes.append(i)
-    
-    return codes
 
 
 def _build_continue_fragment(continue_codes: List[int], python_version: str) -> str:
@@ -75,14 +59,7 @@ def _build_start_fragment(start_codes: List[int], python_version: str) -> str:
 
 def _format_as_ranges(unicodes: List[int]) -> str:
     """Convert list of Unicode code points into ANTLR4 hex ranges.
-    
     Consecutive code points are merged into ranges (e.g., 'a'..'z').
-    
-    Args:
-        unicodes: Sorted list of Unicode code points.
-    
-    Returns:
-        String of ANTLR4 hex literals separated by " | ", with ranges.
     """
     if not unicodes:
         return ""
@@ -113,9 +90,6 @@ def _format_range(start: int, end: int) -> str:
     Args:
         start: Start code point of the range.
         end: End code point of the range.
-    
-    Returns:
-        ANTLR4 hex literal or range string.
     """
     start_hex = _to_antlr4_hex(start)
     
@@ -127,22 +101,14 @@ def _format_range(start: int, end: int) -> str:
 
 
 def _to_antlr4_hex(code: int) -> str:
-    """Convert Unicode code point to ANTLR4 hex escape sequence.
-    
-    Args:
-        code: Unicode code point (0-0x10FFFF).
-    
-    Returns:
-        ANTLR4 format: '\\u{XXXX}' or '\\u{XXXXXX}' for code points > 0xFFFF.
-    """
+    """Convert Unicode code point to ANTLR4 hex escape sequence."""
     return f"'\\u{{{code:04X}}}'"
 
 
 def _save_to_file(content: str, filename: str) -> None:
-    """Save content to file.
-    
-    Args:
-        content: Text content to write.
-        filename: Output file path.
-    """
+    """Save content to file."""
     Path(filename).write_text(content, encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()

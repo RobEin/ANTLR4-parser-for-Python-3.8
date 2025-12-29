@@ -64,7 +64,7 @@ public class Grun4py
             var input = CharStreams.fromPath(filePath, Encoding.GetEncoding(encodingName));
 
             PythonLexer lexer = new(input);
-            lexer.SetEncodingName(encodingName); // generate ENCODING token
+            //lexer.SetEncodingName(encodingName); // generate ENCODING token
 
             CommonTokenStream tokens = new(lexer);
             PythonParser parser = new(tokens);
